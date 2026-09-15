@@ -51,7 +51,6 @@ public class teleopv1 extends OpMode {
                         )
                 )
         );
-        myTe.update();
         imu.resetYaw();
 
     }
@@ -60,12 +59,6 @@ public class teleopv1 extends OpMode {
         mecanumDrive();
         mechanismCode();
         shootingMachine();
-
-        myTe.addData("Front Right Velocity", frontRight.getVelocity());
-        myTe.addData("Front Left Velocity", frontLeft.getVelocity());
-        myTe.addData("Back Right Velocity", backRight.getVelocity());
-        myTe.addData("Back Left Velocity", backLeft.getVelocity());
-        myTe.update();
 
     }
 
@@ -85,10 +78,10 @@ public class teleopv1 extends OpMode {
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        intake = hardwareMap.get(DcMotorEx.class, "intakeMotor");
+        intake = hardwareMap.get(DcMotorEx.class, "intake");
         intake.setDirection(DcMotorEx.Direction.REVERSE);
 
-        transfer = hardwareMap.get(DcMotorEx.class, "transferMotor");
+        transfer = hardwareMap.get(DcMotorEx.class, "transfer");
         transfer.setDirection(DcMotorEx.Direction.REVERSE);
 
 
