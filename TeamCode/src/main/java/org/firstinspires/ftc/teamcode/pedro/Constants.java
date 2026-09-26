@@ -2,8 +2,10 @@ package org.firstinspires.ftc.teamcode.pedro;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.localization.Localizer;
+import com.pedropathing.revhub.drivetrains.Mecanum;
 import com.pedropathing.revhub.drivetrains.MecanumConfig;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Constants {
 
@@ -23,7 +25,19 @@ public class Constants {
             }
     );
 
+    public static Follower create(HardwareMap hardwareMap) {
+        return create(hardwareMap, null);
+    }
+
+    public static Follower create(HardwareMap hardwareMap, Localizer localizer) {
+        return new Follower(localizer, new Mecanum(hardwareMap, driveConfig), null);
+    }
+
+    public static Follower create(Localizer localizer, HardwareMap hardwareMap) {
+        return new Follower(localizer, new Mecanum(hardwareMap, driveConfig), null);
+    }
+
     public static Follower create(Localizer localizer) {
-        return new Follower(driveConfig, localizer, null);
+        return new Follower(localizer, null, null);
     }
 }

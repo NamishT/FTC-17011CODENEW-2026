@@ -4,10 +4,8 @@ import com.pedropathing.api.PoseFactory;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.ivy.Command;
 import com.pedropathing.ivy.Scheduler;
-import com.pedropathing.localization.Localizer;
 import com.pedropathing.math.Pose;
 import com.pedropathing.paths.Path;
-import com.pedropathing.revhub.localizers.PinpointLocalizer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
@@ -16,11 +14,11 @@ import static com.pedropathing.ivy.Scheduler.schedule;
 import static com.pedropathing.ivy.groups.Groups.sequential;
 import static com.pedropathing.ivy.pedro.PedroCommands.follow;
 
+import org.firstinspires.ftc.teamcode.pedro.Constants;
+
 @Autonomous
 public class ExampleAuto extends OpMode {
-
     private Follower follower;
-
     private final PoseFactory poseFactory = PoseFactory.degrees();
 
     // Poses
@@ -28,43 +26,29 @@ public class ExampleAuto extends OpMode {
     private final Pose scorePose = poseFactory.of(48, 48, 90);
     private final Pose parkPose = poseFactory.of(72, 48, 90);
 
-    // Path from start to scoring position
+    // Path methods
     private Path startToScore() {
-        return line(startPose, scorePose)
-                .linear(startPose, scorePose);
+        return line(startPose, scorePose).linear(startPose, scorePose);
     }
 
-    // Path from scoring position to parking position
     private Path park() {
-        return line(scorePose, parkPose)
-                .linear(scorePose, parkPose);
+        return line(scorePose, parkPose).linear(scorePose, parkPose);
     }
 
-    // Autonomous routine
     private Command autoRoutine() {
         return sequential(
                 follow(follower, startToScore()),
-
-                // Add mechanism commands here if needed
-
+                // Add mechanism commands here.
                 follow(follower, park())
         );
     }
 
     @Override
     public void init() {
-
         Scheduler.reset();
 
-        // Create Pinpoint localizer
-        Localizer localizer = new PinpointLocalizer(hardwareMap);
-
-        // Create Pedro follower
-        follower = Constants.create(localizer);
-
-        // Set starting position
+        follower = Constants.create(hardwareMap);
         follower.setPose(startPose);
-
         follower.update();
     }
 
@@ -75,9 +59,8 @@ public class ExampleAuto extends OpMode {
 
     @Override
     public void loop() {
-
         follower.update();
-
         Scheduler.execute();
+        // add your other methods needed in the loop here
     }
 }
